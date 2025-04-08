@@ -14,12 +14,6 @@ import com.spring.project.repository.EmployeeRepository;
 public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
-    
-    // Find all
-    // Find by id
-    // create
-    // update
-    // delete
 
     public List<Employee> findAllEmployees() {
         return employeeRepository.findAll();
