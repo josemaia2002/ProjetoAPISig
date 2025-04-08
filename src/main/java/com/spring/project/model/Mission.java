@@ -1,10 +1,13 @@
 package com.spring.project.model;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
@@ -24,6 +27,9 @@ public class Mission {
     @Column(name = "duration")
     @Positive
     private int duration;
+
+    @ManyToMany(mappedBy = "missions")
+    private List<Employee> employees;
 
     public Long getId() {
         return id;

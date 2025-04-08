@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 
@@ -27,6 +29,10 @@ public class Address {
     @Column(name = "zip_code")
     @NotEmpty
     private String zipCode;
+
+    @OneToOne
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
 
     public Long getId() {
         return id;
