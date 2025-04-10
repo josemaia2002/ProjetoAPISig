@@ -10,12 +10,6 @@ import com.spring.project.model.MissionNotFoundException;
 import com.spring.project.repository.MissionRepository;
 
 public class MissionService {
-    // Find all ok
-    // Find by id ok
-    // create 
-    // update 
-    // delete
-
     @Autowired
     private MissionRepository missionRepository;
 
