@@ -23,12 +23,13 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/")
     public List<Employee> findAllEmployees() {
         return employeeService.findAllEmployees();
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{id}")
     public Employee findEmployeeById(@PathVariable Long id) {
         return employeeService.findEmployeeById(id);

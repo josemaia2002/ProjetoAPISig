@@ -23,11 +23,13 @@ public class DepartmentController {
     @Autowired
     private DepartmentService departmentService;
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/")
     public List<Department> findAllDepartments() {
         return departmentService.findAllDepartments();
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{id}")
     public Department finDepartmentById(@PathVariable Long id) {
         return departmentService.findDepartmentById(id);

@@ -21,11 +21,13 @@ public class AddressController {
     @Autowired
     private AddressService addressService;
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/")
     public List<Address> findAllAddresses() {
         return addressService.findAllAddresses();
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{id}")
     public Address findAddressById(Long id) {
         return addressService.findAddressById(id);

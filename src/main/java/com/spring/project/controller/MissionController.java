@@ -21,11 +21,13 @@ public class MissionController {
     @Autowired
     private MissionService missionService;
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/")
     public List<Mission> findAllMissions() {
         return missionService.findAllMissions();
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{id}")
     public Mission findMissionById(Long id) {
         return missionService.findMissionById(id);
