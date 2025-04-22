@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.project.model.Address;
 import com.spring.project.model.Department;
 import com.spring.project.model.Employee;
 import com.spring.project.model.EmployeeNotFoundException;
@@ -36,9 +37,14 @@ public class EmployeeService {
         return employee.get();
     }
 
-    public void createEmployee(Employee employee) {
-        // Department employeeDepartment = employee.getDepartment();
+    public Address findEmployeeAddress(Long id) {
+        Employee employee = findEmployeeById(id);
+        
+        return employee.getAddress();
+    }
 
+
+    public void createEmployee(Employee employee) {
         if(employee.getDepartment() != null) {
             Long departmentId = employee.getDepartment().getId();
 

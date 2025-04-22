@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.project.model.Address;
 import com.spring.project.model.Employee;
 import com.spring.project.service.EmployeeService;
 
@@ -33,6 +34,12 @@ public class EmployeeController {
     @GetMapping(value = "/{id}")
     public Employee findEmployeeById(@PathVariable Long id) {
         return employeeService.findEmployeeById(id);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = "/{id}/address")
+    public Address findEmployeeAddress(@PathVariable Long id) {
+        return employeeService.findEmployeeAddress(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
