@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.project.model.Department;
 import com.spring.project.model.DepartmentNotFoundException;
+import com.spring.project.model.Employee;
 import com.spring.project.repository.DepartmentRepository;
 
 @Service
@@ -28,7 +29,19 @@ public class DepartmentService {
         return department.get();
     }
 
+    public List<Employee> findDepartmentEmployees(Long id) {
+        Department department = findDepartmentById(id);
+
+        return department.getEmployees();
+    }
+
+    
+
     public void createDepartment(Department department) {
+        if(department.getEmployees() != null) {
+            department.getEmployees().forEach(employee -> employee.setDepartment(department));
+        }
+
         departmentRepository.save(department);
     }
 

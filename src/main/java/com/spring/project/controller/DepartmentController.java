@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.project.model.Department;
+import com.spring.project.model.Employee;
 import com.spring.project.service.DepartmentService;
 
 @RestController
@@ -31,9 +32,16 @@ public class DepartmentController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{id}")
-    public Department finDepartmentById(@PathVariable Long id) {
+    public Department findDepartmentById(@PathVariable Long id) {
         return departmentService.findDepartmentById(id);
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = "/{id}/employees")
+    public List<Employee> findDepartmentEmployees(@PathVariable Long id) {
+        return departmentService.findDepartmentEmployees(id);
+    }
+
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/")

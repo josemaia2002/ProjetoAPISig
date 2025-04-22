@@ -43,8 +43,14 @@ public class EmployeeController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping(value = "/{id}")
-    public void updatedEmployee(@RequestBody Employee employee, @PathVariable Long id) {
+    public void updateEmployee(@RequestBody Employee employee, @PathVariable Long id) {
         employeeService.updateEmployee(employee, id);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping(value = "/{employeeId}/department/{departmentId}")
+    public void updateEmployeeDepartment(@PathVariable Long employeeId, @PathVariable Long departmentId) {
+        employeeService.updateEmployeeDepartment(employeeId, departmentId);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
