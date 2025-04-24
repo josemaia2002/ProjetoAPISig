@@ -2,6 +2,9 @@ package com.spring.project.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,7 +31,8 @@ public class Mission {
     @Positive
     private int duration;
 
-    @ManyToMany(mappedBy = "missions")
+    @ManyToMany(mappedBy = "missions", cascade = CascadeType.ALL)
+    @JsonIgnore 
     private List<Employee> employees;
 
     public Long getId() {
