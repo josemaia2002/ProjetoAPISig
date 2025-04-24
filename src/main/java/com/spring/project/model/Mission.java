@@ -54,4 +54,12 @@ public class Mission {
     public void setDuration(int duration) {
         this.duration = duration;
     }
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
 }

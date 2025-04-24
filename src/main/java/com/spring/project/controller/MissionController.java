@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,25 +31,25 @@ public class MissionController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{id}")
-    public Mission findMissionById(Long id) {
+    public Mission findMissionById(@PathVariable Long id) {
         return missionService.findMissionById(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/")
-    public void createMission(Mission mission) {
+    public void createMission(@RequestBody Mission mission) {
         missionService.createMission(mission);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping(value = "/{id}")
-    public void updatedMission(Mission mission, Long id) {
+    public void updatedMission(@RequestBody Mission mission, @PathVariable Long id) {
         missionService.updateMission(mission, id);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(value = "/{id}")
-    public void deleteMission(Long id) {
+    public void deleteMission(@PathVariable Long id) {
         missionService.deleteMission(id);
     }
 }
