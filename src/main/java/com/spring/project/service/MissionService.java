@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.project.model.Employee;
 import com.spring.project.model.Mission;
 import com.spring.project.model.MissionNotFoundException;
 import com.spring.project.repository.MissionRepository;
@@ -26,6 +27,11 @@ public class MissionService {
         }
 
         return mission.get();
+    }
+
+    public List<Employee> findMissionEmployees(Long id) {
+        Mission mission = findMissionById(id);
+        return mission.getEmployees();
     }
 
     public void createMission(Mission mission) {

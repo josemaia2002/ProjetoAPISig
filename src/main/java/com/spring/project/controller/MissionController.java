@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.project.model.Employee;
 import com.spring.project.model.Mission;
 import com.spring.project.service.MissionService;
 
@@ -29,12 +30,16 @@ public class MissionController {
         return missionService.findAllMissions();
     }
 
-    //TODO findAllMissionEmployees
-
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{id}")
     public Mission findMissionById(@PathVariable Long id) {
         return missionService.findMissionById(id);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = "/{id}/employees")
+    public List<Employee> findMissionEmployees(@PathVariable Long id) {
+        return missionService.findMissionEmployees(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
