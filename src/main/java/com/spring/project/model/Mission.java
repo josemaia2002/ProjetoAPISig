@@ -12,8 +12,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "mission")
@@ -24,11 +22,9 @@ public class Mission {
     private Long id;
 
     @Column(name = "name")    
-    @NotEmpty
     private String name;
 
     @Column(name = "duration")
-    @Positive
     private int duration;
 
     @ManyToMany(mappedBy = "missions", cascade = CascadeType.ALL)

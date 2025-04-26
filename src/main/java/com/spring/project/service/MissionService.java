@@ -29,8 +29,8 @@ public class MissionService {
         return mission.get();
     }
 
-    public List<Employee> findMissionEmployees(Long id) {
-        Mission mission = findMissionById(id);
+    public List<Employee> findMissionEmployees(Long missionId) {
+        Mission mission = findMissionById(missionId);
         return mission.getEmployees();
     }
 

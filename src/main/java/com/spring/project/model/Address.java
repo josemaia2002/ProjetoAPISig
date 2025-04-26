@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "address")
@@ -19,15 +18,12 @@ public class Address {
     private Long id;
 
     @Column(name = "street")
-    @NotEmpty
     private String street;
 
     @Column(name = "house_number")
-    @NotEmpty
     private String houseNumber;
 
     @Column(name = "zip_code")
-    @NotEmpty
     private String zipCode;
 
     @OneToOne

@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.project.dto.AddressResponseDTO;
+import com.spring.project.dto.EmployeeRequestDTO;
+import com.spring.project.dto.EmployeeResponseDTO;
 import com.spring.project.model.Address;
 import com.spring.project.model.Employee;
 import com.spring.project.service.EmployeeService;
@@ -26,31 +29,31 @@ public class EmployeeController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/")
-    public List<Employee> findAllEmployees() {
+    public List<EmployeeResponseDTO> findAllEmployees() {
         return employeeService.findAllEmployees();
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{id}")
-    public Employee findEmployeeById(@PathVariable Long id) {
+    public EmployeeResponseDTO findEmployeeById(@PathVariable Long id) {
         return employeeService.findEmployeeById(id);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{id}/address")
-    public Address findEmployeeAddress(@PathVariable Long id) {
+    public AddressResponseDTO findEmployeeAddress(@PathVariable Long id) {
         return employeeService.findEmployeeAddress(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/")
-    public void createEmployee(@RequestBody Employee employee) {
+    public void createEmployee(@RequestBody EmployeeRequestDTO employee) {
         employeeService.createEmployee(employee);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping(value = "/{id}")
-    public void updateEmployee(@RequestBody Employee employee, @PathVariable Long id) {
+    public void updateEmployee(@RequestBody EmployeeRequestDTO employee, @PathVariable Long id) {
         employeeService.updateEmployee(employee, id);
     }
 

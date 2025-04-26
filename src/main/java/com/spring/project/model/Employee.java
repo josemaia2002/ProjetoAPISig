@@ -15,9 +15,6 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Past;
 
 @Entity
 @Table(name = "employee")
@@ -28,19 +25,15 @@ public class Employee {
     private Long id;
 
     @Column(name = "first_name")
-    @NotEmpty
     private String firstName;
 
     @Column(name = "last_name")
-    @NotEmpty
     private String lastName;
 
     @Column(name = "email")
-    @Email
     private String email;
 
     @Column(name = "birth_date")
-    @Past
     private LocalDate birthDate;
 
     @OneToOne(cascade = CascadeType.ALL)

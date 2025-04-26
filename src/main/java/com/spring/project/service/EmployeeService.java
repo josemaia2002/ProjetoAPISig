@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.project.dto.EmployeeResponseDTO;
 import com.spring.project.model.Address;
 import com.spring.project.model.Department;
 import com.spring.project.model.Employee;
@@ -24,12 +25,15 @@ public class EmployeeService {
         this.departmentService = departmentService;
     }
 
-    public List<Employee> findAllEmployees() {
+    public List<EmployeeResponseDTO> findAllEmployees() {
+        // TODO convertToDTO
         return employeeRepository.findAll();
     }
 
-    public Employee findEmployeeById(Long id) {
-        Optional<Employee> employee = employeeRepository.findById(id);
+    public EmployeeResponseDTO findEmployeeById(Long employeeId) {
+        // TODO convertToDTO
+
+        Optional<Employee> employee = employeeRepository.findById(employeeId);
         if(employee.isEmpty()) {
             throw new EmployeeNotFoundException();
         }
@@ -37,8 +41,10 @@ public class EmployeeService {
         return employee.get();
     }
 
-    public Address findEmployeeAddress(Long id) {
-        Employee employee = findEmployeeById(id);
+    public Address findEmployeeAddress(Long employeeId) {
+        Employee employee = findEmployeeById(employeeId);
+
+         // TODO convertToDTO
         
         return employee.getAddress();
     }
@@ -58,17 +64,19 @@ public class EmployeeService {
             department.getEmployees().add(employee);
         }
 
+        // convertToEntity
         employeeRepository.save(employee);
     }
 
-    public void updateEmployee(Employee employee, Long id) {
-        Employee updatedEmployee = findEmployeeById(id);
+    public void updateEmployee(Employee employee, Long employeeId) {
+        Employee updatedEmployee = findEmployeeById(employeeId);
 
         updatedEmployee.setFirstName(employee.getFirstName());
         updatedEmployee.setLastName(employee.getLastName());
         updatedEmployee.setEmail(employee.getEmail());
         updatedEmployee.setBirthDate(employee.getBirthDate());
 
+        // convertToEntity
         employeeRepository.save(updatedEmployee);
     }
 
@@ -79,11 +87,14 @@ public class EmployeeService {
 
         updatedEmployee.setDepartment(department);
 
+        // convertToEntity
         employeeRepository.save(updatedEmployee);
     }
 
     public void deleteEmployee(Long id) {
         Employee employee = findEmployeeById(id);
+
+        // convertToEntity
         
         employeeRepository.delete(employee);
     }
