@@ -17,7 +17,6 @@ public interface EmployeeMapper {
     @Mapping(target = "address.houseNumber", source = "address.houseNumber")
     @Mapping(target = "address.zipCode", source = "address.zipCode")
     EmployeeResponseDTO employeeToResponseDTO(Employee employee);
-    
 
-    Employee RequestDTOToEmployee (EmployeeRequestDTO employeeRequestDTO);
+    Employee requestDTOToEmployee(EmployeeRequestDTO employeeRequestDTO);
 }

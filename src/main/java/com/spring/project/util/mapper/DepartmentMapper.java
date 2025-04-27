@@ -14,5 +14,5 @@ public interface DepartmentMapper {
 
     DepartmentResponseDTO departmentToResponseDTO(Department department);
     
-    Department RequestDTOToDepartment (DepartmentRequestDTO departmentRequestDTO);
+    Department requestDTOToDepartment (DepartmentRequestDTO departmentRequestDTO);
 }

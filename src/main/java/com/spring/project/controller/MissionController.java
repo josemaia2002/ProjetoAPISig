@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.spring.project.model.Employee;
-import com.spring.project.model.Mission;
+import com.spring.project.dto.EmployeeResponseDTO;
+import com.spring.project.dto.MissionRequestDTO;
+import com.spring.project.dto.MissionResponseDTO;
 import com.spring.project.service.MissionService;
 
 @RestController
@@ -26,37 +27,37 @@ public class MissionController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/")
-    public List<Mission> findAllMissions() {
+    public List<MissionResponseDTO> findAllMissions() {
         return missionService.findAllMissions();
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{id}")
-    public Mission findMissionById(@PathVariable Long id) {
-        return missionService.findMissionById(id);
+    public MissionResponseDTO findMissionById(@PathVariable Long missionId) {
+        return missionService.findMissionById(missionId);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{id}/employees")
-    public List<Employee> findMissionEmployees(@PathVariable Long id) {
-        return missionService.findMissionEmployees(id);
+    public List<EmployeeResponseDTO> findMissionEmployees(@PathVariable Long missionId) {
+        return missionService.findMissionEmployees(missionId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/")
-    public void createMission(@RequestBody Mission mission) {
-        missionService.createMission(mission);
+    public void createMission(@RequestBody MissionRequestDTO missionRequestDTO) {
+        missionService.createMission(missionRequestDTO);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping(value = "/{id}")
-    public void updatedMission(@RequestBody Mission mission, @PathVariable Long id) {
-        missionService.updateMission(mission, id);
+    public void updatedMission(@RequestBody MissionRequestDTO missionRequestDTO, @PathVariable Long missionId) {
+        missionService.updateMission(missionRequestDTO, missionId);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(value = "/{id}")
-    public void deleteMission(@PathVariable Long id) {
-        missionService.deleteMission(id);
+    public void deleteMission(@PathVariable Long missionId) {
+        missionService.deleteMission(missionId);
     }
 }

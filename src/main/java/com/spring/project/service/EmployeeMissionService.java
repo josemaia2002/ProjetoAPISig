@@ -30,7 +30,7 @@ public class EmployeeMissionService {
     public void assignMissionToEmployee(Long employeeId, Long missionId) {
         Employee employee = employeeService.findEmployeeEntityById(employeeId);
 
-        Mission mission = missionService.findMissionById(missionId);
+        Mission mission = missionService.findMissionEntityById(missionId);
 
         // mission.get().getEmployees().contains(employee)
         if(!employee.getMissions().contains(mission)) {
@@ -41,7 +41,7 @@ public class EmployeeMissionService {
 
     public void removeEmployeeFromMission(Long employeeId, Long missionId) {
         Employee employee = employeeService.findEmployeeEntityById(employeeId);
-        Mission mission = missionService.findMissionById(missionId);
+        Mission mission = missionService.findMissionEntityById(missionId);
 
         employee.getMissions().remove(mission);
         

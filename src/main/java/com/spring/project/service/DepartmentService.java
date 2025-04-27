@@ -60,7 +60,7 @@ public class DepartmentService {
     }
 
     public void createDepartment(DepartmentRequestDTO departmentRequestDTO) {
-        Department department = DepartmentMapper.INSTANCE.RequestDTOToDepartment(departmentRequestDTO);
+        Department department = DepartmentMapper.INSTANCE.requestDTOToDepartment(departmentRequestDTO);
 
         departmentRepository.save(department);
     }
@@ -68,7 +68,7 @@ public class DepartmentService {
     public void updateDepartment(DepartmentRequestDTO departmentRequestDTO, Long departmentId) {
         Department updatedDepartment = findDepartmentEntityById(departmentId);
         
-        Department department = DepartmentMapper.INSTANCE.RequestDTOToDepartment(departmentRequestDTO);
+        Department department = DepartmentMapper.INSTANCE.requestDTOToDepartment(departmentRequestDTO);
 
         updatedDepartment.setName(department.getName());
 

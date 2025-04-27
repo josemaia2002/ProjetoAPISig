@@ -58,7 +58,7 @@ public class EmployeeService {
 
 
     public void createEmployee(EmployeeRequestDTO employeeRequestDTO) {
-        Employee employee = EmployeeMapper.INSTANCE.RequestDTOToEmployee(employeeRequestDTO);
+        Employee employee = EmployeeMapper.INSTANCE.requestDTOToEmployee(employeeRequestDTO);
 
         if(employee.getDepartment() != null) {
             Long departmentId = employee.getDepartment().getId();
@@ -77,7 +77,7 @@ public class EmployeeService {
     }
 
     public void updateEmployee(EmployeeRequestDTO employeeRequestDTO, Long employeeId) {
-        Employee employee = EmployeeMapper.INSTANCE.RequestDTOToEmployee(employeeRequestDTO);
+        Employee employee = EmployeeMapper.INSTANCE.requestDTOToEmployee(employeeRequestDTO);
         
         updateEmployeeEntity(employee, employeeId);
     }
