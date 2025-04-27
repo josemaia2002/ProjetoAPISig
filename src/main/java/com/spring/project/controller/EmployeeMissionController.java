@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.spring.project.model.Mission;
+import com.spring.project.dto.MissionResponseDTO;
 import com.spring.project.service.EmployeeMissionService;
 
 @RestController
@@ -23,7 +23,7 @@ public class EmployeeMissionController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/")
-    public List<Mission> findEmployeeMissions(@PathVariable Long employeeId) {
+    public List<MissionResponseDTO> findEmployeeMissions(@PathVariable Long employeeId) {
         return employeeMissionService.findEmployeeMissions(employeeId);
     }
 

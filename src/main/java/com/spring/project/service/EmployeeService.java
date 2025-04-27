@@ -1,17 +1,19 @@
 package com.spring.project.service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.project.dto.AddressResponseDTO;
+import com.spring.project.dto.EmployeeRequestDTO;
 import com.spring.project.dto.EmployeeResponseDTO;
-import com.spring.project.model.Address;
 import com.spring.project.model.Department;
 import com.spring.project.model.Employee;
 import com.spring.project.model.EmployeeNotFoundException;
 import com.spring.project.repository.EmployeeRepository;
+import com.spring.project.util.mapper.EmployeeMapper;
 
 @Service
 public class EmployeeService {
@@ -26,31 +28,38 @@ public class EmployeeService {
     }
 
     public List<EmployeeResponseDTO> findAllEmployees() {
-        // TODO convertToDTO
-        return employeeRepository.findAll();
+        List<EmployeeResponseDTO> employees = new ArrayList<>();
+
+        for(Employee employee: employeeRepository.findAll()) {
+            EmployeeResponseDTO employeeDTO = EmployeeMapper.INSTANCE.employeeToResponseDTO(employee);
+            employees.add(employeeDTO);
+        }
+
+        return employees;
     }
 
     public EmployeeResponseDTO findEmployeeById(Long employeeId) {
-        // TODO convertToDTO
+        Employee employee = findEmployeeEntityById(employeeId);
 
-        Optional<Employee> employee = employeeRepository.findById(employeeId);
-        if(employee.isEmpty()) {
-            throw new EmployeeNotFoundException();
-        }
+        EmployeeResponseDTO employeeResponseDTO = EmployeeMapper.INSTANCE.employeeToResponseDTO(employee);
 
-        return employee.get();
+        return employeeResponseDTO;
     }
 
-    public Address findEmployeeAddress(Long employeeId) {
-        Employee employee = findEmployeeById(employeeId);
+    protected Employee findEmployeeEntityById(Long employeeId) {
+        return employeeRepository.findById(employeeId).orElseThrow(EmployeeNotFoundException::new);
+    }
 
-         // TODO convertToDTO
-        
-        return employee.getAddress();
+    public AddressResponseDTO findEmployeeAddress(Long employeeId) {
+        EmployeeResponseDTO employeeResponseDTO = findEmployeeById(employeeId);
+
+        return employeeResponseDTO.address();
     }
 
 
-    public void createEmployee(Employee employee) {
+    public void createEmployee(EmployeeRequestDTO employeeRequestDTO) {
+        Employee employee = EmployeeMapper.INSTANCE.RequestDTOToEmployee(employeeRequestDTO);
+
         if(employee.getDepartment() != null) {
             Long departmentId = employee.getDepartment().getId();
 
@@ -64,38 +73,40 @@ public class EmployeeService {
             department.getEmployees().add(employee);
         }
 
-        // convertToEntity
         employeeRepository.save(employee);
     }
 
-    public void updateEmployee(Employee employee, Long employeeId) {
-        Employee updatedEmployee = findEmployeeById(employeeId);
+    public void updateEmployee(EmployeeRequestDTO employeeRequestDTO, Long employeeId) {
+        Employee employee = EmployeeMapper.INSTANCE.RequestDTOToEmployee(employeeRequestDTO);
+        
+        updateEmployeeEntity(employee, employeeId);
+    }
 
+    protected void updateEmployeeEntity(Employee employee, Long employeeId) {
+        Employee updatedEmployee = findEmployeeEntityById(employeeId);
+        
         updatedEmployee.setFirstName(employee.getFirstName());
         updatedEmployee.setLastName(employee.getLastName());
         updatedEmployee.setEmail(employee.getEmail());
         updatedEmployee.setBirthDate(employee.getBirthDate());
 
-        // convertToEntity
+        
         employeeRepository.save(updatedEmployee);
     }
 
     public void updateEmployeeDepartment(Long employeeId, Long departmentId) {
-        Employee updatedEmployee = findEmployeeById(employeeId);
+        Employee updatedEmployee = findEmployeeEntityById(employeeId);
 
         Department department = departmentService.findDepartmentById(departmentId);
 
         updatedEmployee.setDepartment(department);
 
-        // convertToEntity
         employeeRepository.save(updatedEmployee);
     }
 
-    public void deleteEmployee(Long id) {
-        Employee employee = findEmployeeById(id);
+    public void deleteEmployee(Long employeeId) {
+        Employee employee = findEmployeeEntityById(employeeId);
 
-        // convertToEntity
-        
         employeeRepository.delete(employee);
     }
 }

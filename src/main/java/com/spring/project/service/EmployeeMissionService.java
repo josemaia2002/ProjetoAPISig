@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.project.dto.EmployeeResponseDTO;
+import com.spring.project.dto.MissionResponseDTO;
 import com.spring.project.model.Employee;
 import com.spring.project.model.Mission;
 
@@ -19,30 +21,30 @@ public class EmployeeMissionService {
         this.missionService = missionService;
     }
 
-    public List<Mission> findEmployeeMissions(Long employeeId) {
-        Employee employee = employeeService.findEmployeeById(employeeId);
+    public List<MissionResponseDTO> findEmployeeMissions(Long employeeId) {
+        EmployeeResponseDTO employeeResponseDTO = employeeService.findEmployeeById(employeeId);
 
-        return employee.getMissions();
+        return employeeResponseDTO.missions();
     }
 
     public void assignMissionToEmployee(Long employeeId, Long missionId) {
-        Employee employee = employeeService.findEmployeeById(employeeId);
+        Employee employee = employeeService.findEmployeeEntityById(employeeId);
 
         Mission mission = missionService.findMissionById(missionId);
 
         // mission.get().getEmployees().contains(employee)
         if(!employee.getMissions().contains(mission)) {
             employee.getMissions().add(mission);
-            employeeService.updateEmployee(employee, employeeId);
+            employeeService.updateEmployeeEntity(employee, employeeId);
         }
     }
 
     public void removeEmployeeFromMission(Long employeeId, Long missionId) {
-        Employee employee = employeeService.findEmployeeById(employeeId);
+        Employee employee = employeeService.findEmployeeEntityById(employeeId);
         Mission mission = missionService.findMissionById(missionId);
 
         employee.getMissions().remove(mission);
         
-        employeeService.updateEmployee(employee, employeeId);
+        employeeService.updateEmployeeEntity(employee, employeeId);
     }
 }
