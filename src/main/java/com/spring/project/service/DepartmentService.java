@@ -1,60 +1,82 @@
 package com.spring.project.service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.project.dto.DepartmentRequestDTO;
+import com.spring.project.dto.DepartmentResponseDTO;
+import com.spring.project.dto.EmployeeResponseDTO;
 import com.spring.project.model.Department;
 import com.spring.project.model.DepartmentNotFoundException;
 import com.spring.project.model.Employee;
 import com.spring.project.repository.DepartmentRepository;
+import com.spring.project.util.mapper.DepartmentMapper;
+import com.spring.project.util.mapper.EmployeeMapper;
 
 @Service
 public class DepartmentService {
     @Autowired
     private DepartmentRepository departmentRepository;
 
-    public List<Department> findAllDepartments() {
-        return departmentRepository.findAll();
-    }
+    public List<DepartmentResponseDTO> findAllDepartments() {
+        List<DepartmentResponseDTO> departments = new ArrayList<>();
 
-    public Department findDepartmentById(Long id) {
-        Optional<Department> department = departmentRepository.findById(id);
-        if(department.isEmpty()) {
-            throw new DepartmentNotFoundException();
+        for(Department department: departmentRepository.findAll()) {
+            DepartmentResponseDTO departmentResponseDTO = DepartmentMapper.INSTANCE.departmentToResponseDTO(department);
+            departments.add(departmentResponseDTO);
         }
 
-        return department.get();
+        return departments;
     }
 
-    public List<Employee> findDepartmentEmployees(Long id) {
-        Department department = findDepartmentById(id);
+    public DepartmentResponseDTO findDepartmentById(Long departmentId) {
+        Department department = findDepartmentEntityById(departmentId);
+        DepartmentResponseDTO departmentResponseDTO = DepartmentMapper.INSTANCE.departmentToResponseDTO(department);
+        
 
-        return department.getEmployees();
+        return departmentResponseDTO;
     }
 
-    
+    protected Department findDepartmentEntityById(Long id) {
+        Department department = departmentRepository.findById(id).orElseThrow(DepartmentNotFoundException::new);
 
-    public void createDepartment(Department department) {
-        if(department.getEmployees() != null) {
-            department.getEmployees().forEach(employee -> employee.setDepartment(department));
+        return department;
+    }
+
+    public List<EmployeeResponseDTO> findDepartmentEmployees(Long id) {
+        Department department = findDepartmentEntityById(id);
+
+        List<EmployeeResponseDTO> employees = new ArrayList<>();
+
+        for(Employee employee: department.getEmployees()) {
+            EmployeeResponseDTO employeeResponseDTO = EmployeeMapper.INSTANCE.employeeToResponseDTO(employee);
+            employees.add(employeeResponseDTO);
         }
+
+        return employees;
+    }
+
+    public void createDepartment(DepartmentRequestDTO departmentRequestDTO) {
+        Department department = DepartmentMapper.INSTANCE.RequestDTOToDepartment(departmentRequestDTO);
 
         departmentRepository.save(department);
     }
 
-    public void updateDepartment(Department department, Long id) {
-        Department updateDepartment = findDepartmentById(id);
+    public void updateDepartment(DepartmentRequestDTO departmentRequestDTO, Long departmentId) {
+        Department updatedDepartment = findDepartmentEntityById(departmentId);
+        
+        Department department = DepartmentMapper.INSTANCE.RequestDTOToDepartment(departmentRequestDTO);
 
-        updateDepartment.setName(department.getName());
+        updatedDepartment.setName(department.getName());
 
-        departmentRepository.save(updateDepartment);
+        departmentRepository.save(updatedDepartment);
     }
 
-    public void deleteDepartment(Long id) {
-        Department department = findDepartmentById(id);
+    public void deleteDepartment(Long departmentId) {
+        Department department = findDepartmentEntityById(departmentId);
 
         departmentRepository.delete(department);
     }

@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.spring.project.model.Department;
-import com.spring.project.model.Employee;
+import com.spring.project.dto.DepartmentRequestDTO;
+import com.spring.project.dto.DepartmentResponseDTO;
+import com.spring.project.dto.EmployeeResponseDTO;
 import com.spring.project.service.DepartmentService;
 
 @RestController
@@ -26,38 +27,38 @@ public class DepartmentController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/")
-    public List<Department> findAllDepartments() {
+    public List<DepartmentResponseDTO> findAllDepartments() {
         return departmentService.findAllDepartments();
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{id}")
-    public Department findDepartmentById(@PathVariable Long id) {
+    public DepartmentResponseDTO findDepartmentById(@PathVariable Long id) {
         return departmentService.findDepartmentById(id);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{id}/employees")
-    public List<Employee> findDepartmentEmployees(@PathVariable Long id) {
+    public List<EmployeeResponseDTO> findDepartmentEmployees(@PathVariable Long id) {
         return departmentService.findDepartmentEmployees(id);
     }
 
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/")
-    public void createDepartment(@RequestBody Department department) {
-        departmentService.createDepartment(department);
+    public void createDepartment(@RequestBody DepartmentRequestDTO departmentRequestDTO) {
+        departmentService.createDepartment(departmentRequestDTO);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping(value = "/{id}")
-    public void updateDepartment(@RequestBody Department department, @PathVariable Long id) {
-        departmentService.updateDepartment(department, id);
+    public void updateDepartment(@RequestBody DepartmentRequestDTO departmentRequestDTO, @PathVariable Long departmentId) {
+        departmentService.updateDepartment(departmentRequestDTO, departmentId);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(value = "/{id}")
-    public void deleteDepartment(@PathVariable Long id) {
-        departmentService.deleteDepartment(id);
+    public void deleteDepartment(@PathVariable Long departmentId) {
+        departmentService.deleteDepartment(departmentId);
     }
 }

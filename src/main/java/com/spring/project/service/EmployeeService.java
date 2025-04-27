@@ -67,7 +67,7 @@ public class EmployeeService {
                 throw new IllegalArgumentException("Employee must be assigned to a valid department");
             }
 
-            Department department = departmentService.findDepartmentById(departmentId);
+            Department department = departmentService.findDepartmentEntityById(departmentId);
 
             employee.setDepartment(department);
             department.getEmployees().add(employee);
@@ -97,7 +97,7 @@ public class EmployeeService {
     public void updateEmployeeDepartment(Long employeeId, Long departmentId) {
         Employee updatedEmployee = findEmployeeEntityById(employeeId);
 
-        Department department = departmentService.findDepartmentById(departmentId);
+        Department department = departmentService.findDepartmentEntityById(departmentId);
 
         updatedEmployee.setDepartment(department);
 
