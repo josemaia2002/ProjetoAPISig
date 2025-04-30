@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import com.spring.project.dto.DepartmentRequestDTO;
 import com.spring.project.dto.DepartmentResponseDTO;
@@ -16,7 +17,11 @@ import com.spring.project.repository.DepartmentRepository;
 import com.spring.project.util.mapper.DepartmentMapper;
 import com.spring.project.util.mapper.EmployeeMapper;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
+
 @Service
+@Validated
 public class DepartmentService {
     @Autowired
     private DepartmentRepository departmentRepository;
@@ -32,7 +37,7 @@ public class DepartmentService {
         return departments;
     }
 
-    public DepartmentResponseDTO findDepartmentById(Long departmentId) {
+    public DepartmentResponseDTO findDepartmentById(@Positive Long departmentId) {
         Department department = findDepartmentEntityById(departmentId);
         DepartmentResponseDTO departmentResponseDTO = DepartmentMapper.INSTANCE.departmentToResponseDTO(department);
         
@@ -40,14 +45,14 @@ public class DepartmentService {
         return departmentResponseDTO;
     }
 
-    protected Department findDepartmentEntityById(Long id) {
-        Department department = departmentRepository.findById(id).orElseThrow(DepartmentNotFoundException::new);
+    protected Department findDepartmentEntityById(@Positive Long departmentId) {
+        Department department = departmentRepository.findById(departmentId).orElseThrow(DepartmentNotFoundException::new);
 
         return department;
     }
 
-    public List<EmployeeResponseDTO> findDepartmentEmployees(Long id) {
-        Department department = findDepartmentEntityById(id);
+    public List<EmployeeResponseDTO> findDepartmentEmployees(@Positive  Long departmentId) {
+        Department department = findDepartmentEntityById(departmentId);
 
         List<EmployeeResponseDTO> employees = new ArrayList<>();
 
@@ -59,13 +64,13 @@ public class DepartmentService {
         return employees;
     }
 
-    public void createDepartment(DepartmentRequestDTO departmentRequestDTO) {
+    public void createDepartment(@Valid DepartmentRequestDTO departmentRequestDTO) {
         Department department = DepartmentMapper.INSTANCE.requestDTOToDepartment(departmentRequestDTO);
 
         departmentRepository.save(department);
     }
 
-    public void updateDepartment(DepartmentRequestDTO departmentRequestDTO, Long departmentId) {
+    public void updateDepartment(@Valid DepartmentRequestDTO departmentRequestDTO, @Positive Long departmentId) {
         Department updatedDepartment = findDepartmentEntityById(departmentId);
         
         Department department = DepartmentMapper.INSTANCE.requestDTOToDepartment(departmentRequestDTO);
@@ -75,7 +80,7 @@ public class DepartmentService {
         departmentRepository.save(updatedDepartment);
     }
 
-    public void deleteDepartment(Long departmentId) {
+    public void deleteDepartment(@Positive Long departmentId) {
         Department department = findDepartmentEntityById(departmentId);
 
         departmentRepository.delete(department);

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import com.spring.project.dto.EmployeeResponseDTO;
 import com.spring.project.dto.MissionRequestDTO;
@@ -16,7 +17,11 @@ import com.spring.project.repository.MissionRepository;
 import com.spring.project.util.mapper.EmployeeMapper;
 import com.spring.project.util.mapper.MissionMapper;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
+
 @Service
+@Validated
 public class MissionService {
     @Autowired
     private MissionRepository missionRepository;
@@ -32,7 +37,7 @@ public class MissionService {
         return missions;
     }
 
-    public MissionResponseDTO findMissionById(Long missionId) {
+    public MissionResponseDTO findMissionById(@Positive Long missionId) {
         Mission mission = findMissionEntityById(missionId);
 
         MissionResponseDTO missionResponseDTO = MissionMapper.INSTANCE.missionToResponseDTO(mission);
@@ -40,11 +45,11 @@ public class MissionService {
         return missionResponseDTO;
     }
 
-    protected Mission findMissionEntityById(Long missionId) {
+    protected Mission findMissionEntityById(@Positive Long missionId) {
         return missionRepository.findById(missionId).orElseThrow(MissionNotFoundException::new);
     }
 
-    public List<EmployeeResponseDTO> findMissionEmployees(Long missionId) {
+    public List<EmployeeResponseDTO> findMissionEmployees(@Positive Long missionId) {
         List<EmployeeResponseDTO> employees = new ArrayList<>();
         
         Mission mission = findMissionEntityById(missionId);
@@ -57,13 +62,13 @@ public class MissionService {
         return employees;
     }
 
-    public void createMission(MissionRequestDTO missionRequestDTO) {
+    public void createMission(@Valid MissionRequestDTO missionRequestDTO) {
         Mission mission = MissionMapper.INSTANCE.requestDTOToMission(missionRequestDTO);
 
         missionRepository.save(mission);
     }
 
-    public void updateMission(MissionRequestDTO missionRequestDTO, Long missionId) {
+    public void updateMission(@Valid MissionRequestDTO missionRequestDTO, @Positive Long missionId) {
         Mission mission = MissionMapper.INSTANCE.requestDTOToMission(missionRequestDTO);
         Mission updatedMission = findMissionEntityById(missionId);
 
@@ -73,7 +78,7 @@ public class MissionService {
         missionRepository.save(updatedMission);
     }
 
-    public void deleteMission(Long missionId) {
+    public void deleteMission(@Positive Long missionId) {
         Mission mission = findMissionEntityById(missionId);
 
         missionRepository.delete(mission);

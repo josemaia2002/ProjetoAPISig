@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,8 +20,12 @@ import com.spring.project.dto.EmployeeRequestDTO;
 import com.spring.project.dto.EmployeeResponseDTO;
 import com.spring.project.service.EmployeeService;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
+
 @RestController
 @RequestMapping("/api/employees")
+@Validated
 public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
@@ -33,37 +38,37 @@ public class EmployeeController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{id}")
-    public EmployeeResponseDTO findEmployeeById(@PathVariable Long id) {
-        return employeeService.findEmployeeById(id);
+    public EmployeeResponseDTO findEmployeeById(@PathVariable @Positive Long employeeId) {
+        return employeeService.findEmployeeById(employeeId);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{id}/address")
-    public AddressResponseDTO findEmployeeAddress(@PathVariable Long id) {
-        return employeeService.findEmployeeAddress(id);
+    public AddressResponseDTO findEmployeeAddress(@PathVariable @Positive Long employeeId) {
+        return employeeService.findEmployeeAddress(employeeId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/")
-    public void createEmployee(@RequestBody EmployeeRequestDTO employee) {
+    public void createEmployee(@Valid @RequestBody EmployeeRequestDTO employee) {
         employeeService.createEmployee(employee);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping(value = "/{id}")
-    public void updateEmployee(@RequestBody EmployeeRequestDTO employee, @PathVariable Long id) {
-        employeeService.updateEmployee(employee, id);
+    public void updateEmployee(@Valid @RequestBody EmployeeRequestDTO employee, @PathVariable @Positive Long employeeId) {
+        employeeService.updateEmployee(employee, employeeId);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping(value = "/{employeeId}/department/{departmentId}")
-    public void updateEmployeeDepartment(@PathVariable Long employeeId, @PathVariable Long departmentId) {
+    public void updateEmployeeDepartment(@PathVariable @Positive Long employeeId, @PathVariable @Positive Long departmentId) {
         employeeService.updateEmployeeDepartment(employeeId, departmentId);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(value = "/{id}")
-    public void deleteEmployee(@PathVariable Long id) {
-        employeeService.deleteEmployee(id);
+    public void deleteEmployee(@PathVariable @Positive Long employeeId) {
+        employeeService.deleteEmployee(employeeId);
     }
 }

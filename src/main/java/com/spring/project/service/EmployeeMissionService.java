@@ -4,13 +4,17 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import com.spring.project.dto.EmployeeResponseDTO;
 import com.spring.project.dto.MissionResponseDTO;
 import com.spring.project.model.Employee;
 import com.spring.project.model.Mission;
 
+import jakarta.validation.constraints.Positive;
+
 @Service
+@Validated
 public class EmployeeMissionService {
     private final EmployeeService employeeService;
     private final MissionService missionService;
@@ -21,13 +25,13 @@ public class EmployeeMissionService {
         this.missionService = missionService;
     }
 
-    public List<MissionResponseDTO> findEmployeeMissions(Long employeeId) {
+    public List<MissionResponseDTO> findEmployeeMissions(@Positive Long employeeId) {
         EmployeeResponseDTO employeeResponseDTO = employeeService.findEmployeeById(employeeId);
 
         return employeeResponseDTO.missions();
     }
 
-    public void assignMissionToEmployee(Long employeeId, Long missionId) {
+    public void assignMissionToEmployee(@Positive Long employeeId, @Positive Long missionId) {
         Employee employee = employeeService.findEmployeeEntityById(employeeId);
 
         Mission mission = missionService.findMissionEntityById(missionId);
@@ -39,7 +43,7 @@ public class EmployeeMissionService {
         }
     }
 
-    public void removeEmployeeFromMission(Long employeeId, Long missionId) {
+    public void removeEmployeeFromMission(@Positive Long employeeId, @Positive Long missionId) {
         Employee employee = employeeService.findEmployeeEntityById(employeeId);
         Mission mission = missionService.findMissionEntityById(missionId);
 

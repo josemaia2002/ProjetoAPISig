@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import com.spring.project.dto.AddressResponseDTO;
 import com.spring.project.dto.EmployeeRequestDTO;
@@ -15,7 +16,11 @@ import com.spring.project.model.EmployeeNotFoundException;
 import com.spring.project.repository.EmployeeRepository;
 import com.spring.project.util.mapper.EmployeeMapper;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
+
 @Service
+@Validated
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
@@ -38,7 +43,7 @@ public class EmployeeService {
         return employees;
     }
 
-    public EmployeeResponseDTO findEmployeeById(Long employeeId) {
+    public EmployeeResponseDTO findEmployeeById(@Positive Long employeeId) {
         Employee employee = findEmployeeEntityById(employeeId);
 
         EmployeeResponseDTO employeeResponseDTO = EmployeeMapper.INSTANCE.employeeToResponseDTO(employee);
@@ -46,18 +51,18 @@ public class EmployeeService {
         return employeeResponseDTO;
     }
 
-    protected Employee findEmployeeEntityById(Long employeeId) {
+    protected Employee findEmployeeEntityById(@Positive Long employeeId) {
         return employeeRepository.findById(employeeId).orElseThrow(EmployeeNotFoundException::new);
     }
 
-    public AddressResponseDTO findEmployeeAddress(Long employeeId) {
+    public AddressResponseDTO findEmployeeAddress(@Positive Long employeeId) {
         EmployeeResponseDTO employeeResponseDTO = findEmployeeById(employeeId);
 
         return employeeResponseDTO.address();
     }
 
 
-    public void createEmployee(EmployeeRequestDTO employeeRequestDTO) {
+    public void createEmployee(@Valid EmployeeRequestDTO employeeRequestDTO) {
         Employee employee = EmployeeMapper.INSTANCE.requestDTOToEmployee(employeeRequestDTO);
 
         if(employee.getDepartment() != null) {
@@ -76,7 +81,7 @@ public class EmployeeService {
         employeeRepository.save(employee);
     }
 
-    public void updateEmployee(EmployeeRequestDTO employeeRequestDTO, Long employeeId) {
+    public void updateEmployee(@Valid EmployeeRequestDTO employeeRequestDTO, @Positive Long employeeId) {
         Employee employee = EmployeeMapper.INSTANCE.requestDTOToEmployee(employeeRequestDTO);
         
         updateEmployeeEntity(employee, employeeId);
@@ -94,7 +99,7 @@ public class EmployeeService {
         employeeRepository.save(updatedEmployee);
     }
 
-    public void updateEmployeeDepartment(Long employeeId, Long departmentId) {
+    public void updateEmployeeDepartment(@Positive Long employeeId, @Positive Long departmentId) {
         Employee updatedEmployee = findEmployeeEntityById(employeeId);
 
         Department department = departmentService.findDepartmentEntityById(departmentId);
@@ -104,7 +109,7 @@ public class EmployeeService {
         employeeRepository.save(updatedEmployee);
     }
 
-    public void deleteEmployee(Long employeeId) {
+    public void deleteEmployee(@Positive Long employeeId) {
         Employee employee = findEmployeeEntityById(employeeId);
 
         employeeRepository.delete(employee);

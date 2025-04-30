@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,8 +20,12 @@ import com.spring.project.dto.MissionRequestDTO;
 import com.spring.project.dto.MissionResponseDTO;
 import com.spring.project.service.MissionService;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
+
 @RestController
 @RequestMapping("/api/missions")
+@Validated
 public class MissionController {
     @Autowired
     private MissionService missionService;
@@ -33,31 +38,31 @@ public class MissionController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{id}")
-    public MissionResponseDTO findMissionById(@PathVariable Long missionId) {
+    public MissionResponseDTO findMissionById(@PathVariable @Positive Long missionId) {
         return missionService.findMissionById(missionId);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/{id}/employees")
-    public List<EmployeeResponseDTO> findMissionEmployees(@PathVariable Long missionId) {
+    public List<EmployeeResponseDTO> findMissionEmployees(@PathVariable @Positive Long missionId) {
         return missionService.findMissionEmployees(missionId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/")
-    public void createMission(@RequestBody MissionRequestDTO missionRequestDTO) {
+    public void createMission(@Valid @RequestBody MissionRequestDTO missionRequestDTO) {
         missionService.createMission(missionRequestDTO);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping(value = "/{id}")
-    public void updatedMission(@RequestBody MissionRequestDTO missionRequestDTO, @PathVariable Long missionId) {
+    public void updatedMission(@Valid @RequestBody MissionRequestDTO missionRequestDTO, @PathVariable @Positive Long missionId) {
         missionService.updateMission(missionRequestDTO, missionId);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(value = "/{id}")
-    public void deleteMission(@PathVariable Long missionId) {
+    public void deleteMission(@PathVariable @Positive Long missionId) {
         missionService.deleteMission(missionId);
     }
 }
