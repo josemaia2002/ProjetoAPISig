@@ -1,6 +1,7 @@
 package com.spring.project.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -50,7 +51,7 @@ public class Employee {
         joinColumns = @JoinColumn(name = "employee_id"),
         inverseJoinColumns = @JoinColumn(name = "mission_id")
     )
-    private List<Mission> missions;
+    private List<Mission> missions = new ArrayList<>();
 
     public Long getId() {
         return id;

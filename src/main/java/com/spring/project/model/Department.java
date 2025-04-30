@@ -1,5 +1,6 @@
 package com.spring.project.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -26,7 +27,7 @@ public class Department {
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore 
-    private List<Employee> employees;
+    private List<Employee> employees = new ArrayList<>();
 
     public Long getId() {
         return id;
