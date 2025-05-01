@@ -22,8 +22,12 @@ import jakarta.validation.constraints.Positive;
 @RequestMapping("/api/employees/{employeeId}/missions")
 @Validated
 public class EmployeeMissionController {
-    @Autowired
     private EmployeeMissionService employeeMissionService;
+
+    @Autowired
+    public EmployeeMissionController(EmployeeMissionService employeeMissionService) {
+        this.employeeMissionService = employeeMissionService;
+    }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/")

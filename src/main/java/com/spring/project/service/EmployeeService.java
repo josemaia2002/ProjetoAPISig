@@ -22,7 +22,6 @@ import jakarta.validation.constraints.Positive;
 @Service
 @Validated
 public class EmployeeService {
-
     private final EmployeeRepository employeeRepository;
     private final DepartmentService departmentService;
 

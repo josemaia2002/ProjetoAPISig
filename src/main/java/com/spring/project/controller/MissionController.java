@@ -27,8 +27,12 @@ import jakarta.validation.constraints.Positive;
 @RequestMapping("/api/missions")
 @Validated
 public class MissionController {
-    @Autowired
     private MissionService missionService;
+
+    @Autowired
+    public MissionController(MissionService missionService) {
+        this.missionService = missionService;
+    }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/")
@@ -37,13 +41,13 @@ public class MissionController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{missionId}")
     public MissionResponseDTO findMissionById(@PathVariable @Positive Long missionId) {
         return missionService.findMissionById(missionId);
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value = "/{id}/employees")
+    @GetMapping(value = "/{missionId}/employees")
     public List<EmployeeResponseDTO> findMissionEmployees(@PathVariable @Positive Long missionId) {
         return missionService.findMissionEmployees(missionId);
     }
@@ -55,13 +59,13 @@ public class MissionController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "/{missionId}")
     public void updatedMission(@Valid @RequestBody MissionRequestDTO missionRequestDTO, @PathVariable @Positive Long missionId) {
         missionService.updateMission(missionRequestDTO, missionId);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/{missionId}")
     public void deleteMission(@PathVariable @Positive Long missionId) {
         missionService.deleteMission(missionId);
     }

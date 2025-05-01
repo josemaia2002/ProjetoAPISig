@@ -27,8 +27,12 @@ import jakarta.validation.constraints.Positive;
 @RequestMapping("/api/employees")
 @Validated
 public class EmployeeController {
-    @Autowired
     private EmployeeService employeeService;
+
+    @Autowired
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/")
@@ -37,13 +41,13 @@ public class EmployeeController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{employeeId}")
     public EmployeeResponseDTO findEmployeeById(@PathVariable @Positive Long employeeId) {
         return employeeService.findEmployeeById(employeeId);
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value = "/{id}/address")
+    @GetMapping(value = "/{employeeId}/address")
     public AddressResponseDTO findEmployeeAddress(@PathVariable @Positive Long employeeId) {
         return employeeService.findEmployeeAddress(employeeId);
     }
@@ -55,7 +59,7 @@ public class EmployeeController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "/{employeeId}")
     public void updateEmployee(@Valid @RequestBody EmployeeRequestDTO employee, @PathVariable @Positive Long employeeId) {
         employeeService.updateEmployee(employee, employeeId);
     }
@@ -67,7 +71,7 @@ public class EmployeeController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/{employeeId}")
     public void deleteEmployee(@PathVariable @Positive Long employeeId) {
         employeeService.deleteEmployee(employeeId);
     }

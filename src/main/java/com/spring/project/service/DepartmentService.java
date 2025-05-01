@@ -23,8 +23,12 @@ import jakarta.validation.constraints.Positive;
 @Service
 @Validated
 public class DepartmentService {
-    @Autowired
     private DepartmentRepository departmentRepository;
+    
+    @Autowired
+    public DepartmentService(DepartmentRepository departmentRepository) {
+        this.departmentRepository = departmentRepository;
+    }
 
     public List<DepartmentResponseDTO> findAllDepartments() {
         List<DepartmentResponseDTO> departments = new ArrayList<>();

@@ -27,8 +27,12 @@ import jakarta.validation.constraints.Positive;
 @RequestMapping("/api/departments")
 @Validated
 public class DepartmentController {
-    @Autowired
     private DepartmentService departmentService;
+
+    @Autowired
+    public DepartmentController(DepartmentService departmentService) {
+        this.departmentService = departmentService;
+    }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/")
@@ -37,13 +41,13 @@ public class DepartmentController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{departmentId}")
     public DepartmentResponseDTO findDepartmentById(@PathVariable @Positive Long departmentId) {
         return departmentService.findDepartmentById(departmentId);
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value = "/{id}/employees")
+    @GetMapping(value = "/{departmentId}/employees")
     public List<EmployeeResponseDTO> findDepartmentEmployees(@PathVariable @Positive Long departmentId) {
         return departmentService.findDepartmentEmployees(departmentId);
     }
@@ -56,13 +60,13 @@ public class DepartmentController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "/{departmentId}")
     public void updateDepartment(@Valid @RequestBody DepartmentRequestDTO departmentRequestDTO, @PathVariable @Positive Long departmentId) {
         departmentService.updateDepartment(departmentRequestDTO, departmentId);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/{departmentId}")
     public void deleteDepartment(@PathVariable @Positive Long departmentId) {
         departmentService.deleteDepartment(departmentId);
     }

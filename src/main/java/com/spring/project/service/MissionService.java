@@ -23,8 +23,12 @@ import jakarta.validation.constraints.Positive;
 @Service
 @Validated
 public class MissionService {
-    @Autowired
     private MissionRepository missionRepository;
+    
+    @Autowired
+    public MissionService(MissionRepository missionRepository) {
+        this.missionRepository = missionRepository;
+    }
 
     public List<MissionResponseDTO> findAllMissions() {
         List<MissionResponseDTO> missions = new ArrayList<>();
